@@ -69,7 +69,7 @@ defmodule Exguten.PDF do
   end
 
   def set_font(pid, font, size) when is_binary(font) do
-    :ok = :eg_pdf.set_font(pid, String.to_char_list(font), size)
+    :ok = :eg_pdf.set_font(pid, String.to_charlist(font), size)
     pid
   end
 
