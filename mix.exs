@@ -7,7 +7,7 @@ defmodule Exguten.Mixfile do
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps]
+     deps: deps()]
   end
 
   # Configuration for the OTP application
@@ -28,7 +28,7 @@ defmodule Exguten.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:erlguten, github: "ztmr/erlguten"}
+      {:erlguten, github: "Hermanverschooten/erlguten"}
     ]
   end
 end

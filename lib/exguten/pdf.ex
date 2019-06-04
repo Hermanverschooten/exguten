@@ -99,11 +99,11 @@ defmodule Exguten.PDF do
   end
 
   def get_string_width(pid, fontname, ptsize, text) when is_binary fontname do
-    get_string_width(pid, String.to_char_list(fontname), ptsize, text)
+    get_string_width(pid, :unicode.characters_to_list(fontname), ptsize, text)
   end
 
   def get_string_width(pid, fontname, ptsize, text) when is_binary text do
-    get_string_width(pid, fontname, ptsize, String.to_char_list(text))
+    get_string_width(pid, fontname, ptsize, :unicode.characters_to_list(text))
   end
 
   def get_string_width(pid, fontname, ptsize, text)  do
@@ -126,13 +126,18 @@ defmodule Exguten.PDF do
   end
 
   def export(pid) do
-    :eg_pdf.export(pid)
+    {serialized, pageno} = :eg_pdf.export(pid)
+    { normalize(serialized), pageno }
   end
 
   def export(pid, filename) do
     { serialized, _pageno } = export(pid)
-    File.write(filename, serialized, [:binary])
+    File.write(filename, normalize(serialized), [:binary])
     pid
+  end
+
+  defp normalize(str) do
+    String.replace(str, "€", << 128 >>)
   end
 
   def stop(pid) do
